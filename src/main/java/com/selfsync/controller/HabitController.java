@@ -1,23 +1,35 @@
 package com.selfsync.controller;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.selfsync.dto.HabitDto;
 import com.selfsync.dto.HabitMapper;
 import com.selfsync.entity.Habit;
 import com.selfsync.service.HabitService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @RestController
 @RequestMapping("/api/habits")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class HabitController {
-    private final HabitService habitService;
-
-    public HabitController(HabitService habitService) {
-        this.habitService = habitService;
-    }
+    HabitService habitService;
 
     @GetMapping
     public List<HabitDto> getAllHabits() {
@@ -37,8 +49,8 @@ public class HabitController {
     @PostMapping
     public HabitDto createHabit(@RequestBody HabitDto habitDto) {
         Habit habit = HabitMapper.toEntity(habitDto);
-        habit.setCreatedAt(java.time.LocalDateTime.now());
-        habit.setUpdatedAt(java.time.LocalDateTime.now());
+        habit.setCreatedAt(LocalDateTime.now());
+        habit.setUpdatedAt(LocalDateTime.now());
         return HabitMapper.toDto(habitService.saveHabit(habit));
     }
 
@@ -48,7 +60,7 @@ public class HabitController {
                 .map(existing -> {
                     Habit habit = HabitMapper.toEntity(habitDto);
                     habit.setId(id);
-                    habit.setUpdatedAt(java.time.LocalDateTime.now());
+                    habit.setUpdatedAt(LocalDateTime.now());
                     return ResponseEntity.ok(HabitMapper.toDto(habitService.saveHabit(habit)));
                 })
                 .orElse(ResponseEntity.notFound().build());

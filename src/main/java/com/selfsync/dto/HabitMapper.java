@@ -1,7 +1,10 @@
 package com.selfsync.dto;
 
 import com.selfsync.entity.Habit;
+import lombok.experimental.FieldDefaults;
+import lombok.AccessLevel;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class HabitMapper {
     public static HabitDto toDto(Habit habit) {
         return HabitDto.builder()

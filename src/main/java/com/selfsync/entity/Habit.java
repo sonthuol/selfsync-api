@@ -2,6 +2,7 @@ package com.selfsync.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,18 +12,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Habit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
-    private String name;
-    private String description;
+    String name;
+    String description;
 
     @ElementCollection
     @Builder.Default
-    private List<String> completedDays = new ArrayList<>();
+    List<String> completedDays = new ArrayList<>();
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-} 
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
+}

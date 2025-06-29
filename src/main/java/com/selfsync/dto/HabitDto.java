@@ -1,6 +1,7 @@
 package com.selfsync.dto;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -8,11 +9,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class HabitDto {
-    private Long id;
-    private String name;
-    private String description;
-    private List<String> completedDays;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    Long id;
+    String name;
+    String description;
+    List<String> completedDays;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 } 
