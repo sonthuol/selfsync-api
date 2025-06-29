@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.selfsync.model.Habit;
+import com.selfsync.entity.Habit;
 import com.selfsync.repository.HabitRepository;
 
 @Service
@@ -35,6 +35,9 @@ public class HabitService {
     // Thêm completed day
     public Habit addCompletedDay(Long id, String date) {
         Habit habit = habitRepository.findById(id).orElseThrow();
+        if (habit.getCompletedDays() == null) {
+            habit.setCompletedDays(new java.util.ArrayList<>());
+        }
         if (!habit.getCompletedDays().contains(date)) {
             habit.getCompletedDays().add(date);
             habit.setUpdatedAt(java.time.LocalDateTime.now());
@@ -46,7 +49,9 @@ public class HabitService {
     // Bỏ completed day
     public Habit removeCompletedDay(Long id, String date) {
         Habit habit = habitRepository.findById(id).orElseThrow();
-        habit.getCompletedDays().remove(date);
+        if (habit.getCompletedDays() != null) {
+            habit.getCompletedDays().remove(date);
+        }
         habit.setUpdatedAt(java.time.LocalDateTime.now());
         habitRepository.save(habit);
         return habit;
