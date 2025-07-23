@@ -17,4 +17,4 @@ public class HabitDto {
     List<String> completedDays;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
-} 
+}
